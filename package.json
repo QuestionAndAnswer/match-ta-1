@@ -5,10 +5,10 @@
   "type": "module",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "NODE_ENV=production node --enable-source-maps dist/index.js",
-    "dev": "npm run build && npm run start"
+    "dev": "npm run build && npm run start",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {

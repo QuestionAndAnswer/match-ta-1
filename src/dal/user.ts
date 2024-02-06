@@ -32,6 +32,8 @@ export class UsersRepo {
                 $role: entity.role
             },
         );
+
+        return id;
     }
 
     async findByName(name: string) {
@@ -51,7 +53,6 @@ export class UsersRepo {
 
         return res;
     }
-
 
     async addDeposit(userId: string, amount: number) {
         const res = await this.db.get<{ deposit: number }>(

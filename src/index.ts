@@ -13,6 +13,8 @@ import passport from "passport";
 const configs = {
     PORT: 8080,
     SESSION_SECRET: 'keyboard cat',
+    // must be true for production. false for manual testing
+    SECURE_COOKIES: false,
 };
 
 const usersDb = await openUsersDb();
@@ -27,15 +29,14 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 
-app.set('trust proxy', 1) // trust first proxy
+app.set('trust proxy', 1)
 app.use(session({
     secret: configs.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     name: "taapp1",
     cookie: {
-        // must be true for production. false for manual testing
-        secure: false,
+        secure: configs.SECURE_COOKIES,
         httpOnly: true,
         sameSite: "strict",
         maxAge: 3600 * 1000

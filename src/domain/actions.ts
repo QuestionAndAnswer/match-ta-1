@@ -19,7 +19,8 @@ const allowedCoins = [5, 10, 20, 50, 100];
 export function validateDepositDto(dto: unknown) {
     if (!isRecordObj(dto)) return new Error("not an object");
 
-    if (!Number.isInteger(dto.amount) || !allowedCoins.some(x => dto.amount === x)) return new Error(`.amount must be one of ${allowedCoins} values`);
+    if (!Number.isInteger(dto.amount) || !allowedCoins.some(x => dto.amount === x))
+        return new Error(`.amount must be one of ${allowedCoins} values`);
 
     return dto as unknown as DepositDto & UnknownRecord;
 }
@@ -27,9 +28,11 @@ export function validateDepositDto(dto: unknown) {
 export function validateBuyDto(dto: unknown) {
     if (!isRecordObj(dto)) return new Error("not an object");
 
-    if (!Number.isInteger(dto.amount) || (dto.amount as number) <= 0) return new Error(".amount must be positive non zero integer");
+    if (!Number.isInteger(dto.amount) || (dto.amount as number) <= 0)
+        return new Error(".amount must be positive non zero integer");
 
-    if (typeof dto.productId !== "string" || !validator.isUUID(dto.productId)) return new Error(".productId is not a valid UUID");
+    if (typeof dto.productId !== "string" || !validator.isUUID(dto.productId))
+        return new Error(".productId is not a valid UUID");
 
     return dto as unknown as BuyDto & UnknownRecord;
 }
