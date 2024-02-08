@@ -14,7 +14,7 @@ export interface CreateUserDto extends UserBodyDto {
     password: string;
 }
 
-const allowedRoles = ["buyer"];
+const allowedRoles = ["buyer", "seller"];
 
 export function validateUserBodyDto(dto: unknown) {
     if (!dto) return new Error("empty payload received");
@@ -31,7 +31,7 @@ export function validateUserBodyDto(dto: unknown) {
 
     if (
         typeof dto.role !== "string" ||
-        !allowedRoles.includes(dto.role)
+        !allowedRoles.some(x => x === dto.role)
     ) return new Error(`.role may be one of ${allowedRoles}`);
 
     return dto as unknown as UserBodyDto & UnknownRecord;

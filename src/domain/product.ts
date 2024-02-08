@@ -2,7 +2,7 @@ import { Request, Router } from "express";
 import { isRecordObj } from "../utils.js";
 import { ProductRepo } from "../dal/product.js";
 import validator from "validator";
-import { authn } from "./auth.js";
+import { authn, authz } from "./auth.js";
 
 
 export interface ProductBodyDto {
@@ -55,7 +55,7 @@ export function validateUpdateReq(req: Pick<Request, "body" | "params">) {
 export function createProductRouter(repo: ProductRepo) {
     const app = Router();
 
-    app.post("/products", authn(), async (req, res) => {
+    app.post("/products", authn(), authz("seller"), async (req, res) => {
         const vres = validateCreateReq(req);
         if (vres instanceof Error) return res.status(400).send(vres);
 
@@ -75,7 +75,7 @@ export function createProductRouter(repo: ProductRepo) {
         res.status(200).json(products);
     });
 
-    app.put("/products/:id", authn(), async (req, res) => {
+    app.put("/products/:id", authn(), authz("seller"), async (req, res) => {
         const vres = validateUpdateReq(req);
         if (vres instanceof Error) return res.status(400).send(vres);
 
@@ -89,7 +89,7 @@ export function createProductRouter(repo: ProductRepo) {
         res.sendStatus(200);
     });
 
-    app.delete("/products/:id", authn(), async (req, res) => {
+    app.delete("/products/:id", authn(), authz("seller"), async (req, res) => {
         const id = req.params.id;
         if (!validator.isUUID(id)) {
             return res.status(400).send("id must be valid UUID");
